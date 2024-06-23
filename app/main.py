@@ -11,7 +11,7 @@ def main():
     with socket.create_server(("localhost", 4221), reuse_port=True) as server_socket:
         conexion, direccion = server_socket.accept()  # wait for client
         print(f"accepted connection from {direccion}")
-        data = server_socket.recv(1024)
+        data = conexion.recv(1024)
         conexion.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
 
 
