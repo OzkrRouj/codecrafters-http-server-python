@@ -6,17 +6,25 @@ def msg_estrucutura(data):
     data_linea = data.splitlines()  # separar los elementos en lineas
     # separar los elemntos dentro de una linea
     data_path = data_linea[0].split()[1]
+    data_headers = data_linea[3].split()
     path_elementos = data_path.split('/')
-    print(path_elementos)
+    print(data_headers)
     print(data_path)
 
-    return data_path, path_elementos
+    return data_path, path_elementos, data_headers
 
 
 def manejo_respuesta(path, conexion):
+    print(f'esto es path 0 {path[0]}')
     if path[1][1] == 'echo':
         echo_element = path[1][2]
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
+        )
+        conexion.sendall(echo_msg)
+        return
+    if path[0] == '/user-agent':
+        data_header = path[2][1]
+        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(data_header)}\r\n\r\n{data_header}'.encode(
         )
         conexion.sendall(echo_msg)
         return
@@ -36,7 +44,7 @@ def main():
         data = conexion.recv(1024).decode()  # recopila la data de la peticion
 
         path = msg_estrucutura(data)  # obtenet path
-        print(path)
+        print(path[0])
         manejo_respuesta(path, conexion)  # manejar codigo html
 
 
