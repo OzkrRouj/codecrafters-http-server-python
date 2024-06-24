@@ -1,5 +1,6 @@
 # Uncomment this to pass the first stage
 import socket
+from threading import Thread
 
 
 def msg_estrucutura(data):
@@ -39,16 +40,24 @@ def manejo_respuesta(path, conexion):
         return
 
 
+def manejar_conexion(conexion, direccion):
+    data = conexion.recv(1024).decode()  # recopila la data de la peticion
+
+    path = msg_estrucutura(data)  # obtenet path
+    print(path)
+    manejo_respuesta(path, conexion)  # manejar codigo html
+    conexion.close()
+
+
 def main():
     # crea un servidor socket
+
     with socket.create_server(("localhost", 4221)) as server_socket:
         # acepta una conexion al socket y un ip
-        conexion, direccion = server_socket.accept()
-        data = conexion.recv(1024).decode()  # recopila la data de la peticion
-
-        path = msg_estrucutura(data)  # obtenet path
-        print(path)
-        manejo_respuesta(path, conexion)  # manejar codigo html
+        while True:
+            conexion, direccion = server_socket.accept()
+            hilo = Thread(target=manejar_conexion, args=(conexion, direccion))
+            hilo.start()
 
 
 if __name__ == "__main__":
