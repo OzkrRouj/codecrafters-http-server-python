@@ -15,7 +15,7 @@ def msg_estrucutura(data):
 
 
 def manejo_respuesta(path, conexion):
-    print(f'esto es path 0 {path[0]}')
+    print(f'esto es path 0 {path[2][1]}')
     if path[1][1] == 'echo':
         echo_element = path[1][2]
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
@@ -23,7 +23,7 @@ def manejo_respuesta(path, conexion):
         conexion.sendall(echo_msg)
         return
     if path[0] == '/user-agent':
-        data_header = path[2][1]
+        data_header = str(path[2][1])
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(data_header)}\r\n\r\n{data_header}'.encode(
         )
         conexion.sendall(echo_msg)
