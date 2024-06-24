@@ -8,6 +8,7 @@ def msg_estrucutura(data):
     data_path = data_linea[0].split()[1]
 
     path_elementos = data_path.split('/')
+    data_headers = []
     if data_path == '/user-agent':
         data_headers = data_linea[2].split()[1]
     print(data_headers)
