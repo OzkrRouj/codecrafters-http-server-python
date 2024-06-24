@@ -6,7 +6,7 @@ def msg_estrucutura(data):
     data_linea = data.splitlines()  # separar los elementos en lineas
     # separar los elemntos dentro de una linea
     data_path = data_linea[0].split()[1]
-    data_headers = data_linea[3].split()
+    data_headers = data_linea[3].split()[1]
     path_elementos = data_path.split('/')
     print(data_headers)
     print(data_path)
@@ -23,7 +23,7 @@ def manejo_respuesta(path, conexion):
         conexion.sendall(echo_msg)
         return
     if path[0] == '/user-agent':
-        data_header = path[2][1]
+        data_header = path[2]
         data_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(data_header)}\r\n\r\n{data_header}'.encode(
         )
         conexion.sendall(data_msg)
