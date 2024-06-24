@@ -24,9 +24,9 @@ def manejo_respuesta(path, conexion):
         return
     if path[0] == '/user-agent':
         data_header = path[2][1]
-        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(data_header)}\r\n\r\n{data_header}'.encode(
+        data_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(data_header)}\r\n\r\n{data_header}'.encode(
         )
-        conexion.sendall(echo_msg)
+        conexion.sendall(data_msg)
         return
     if path[0] == '/':
         conexion.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
