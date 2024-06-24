@@ -3,17 +3,29 @@ import socket
 
 
 def msg_estrucutura(data):
-    data_linea = data.splitlines()
-    data_path = data_linea[0].split()
+    data_linea = data.splitlines()  # separar los elementos en lineas
+    # separar los elemntos dentro de una linea
+    data_path = data_linea[0].split()[1]
+    path_elementos = data_path.split('/')
+    print(path_elementos)
+    print(data_path)
 
-    return data_path[1]
+    return data_path, path_elementos
 
 
 def manejo_respuesta(path, conexion):
-    if path == '/':
+    if path[1][1] == 'echo':
+        echo_element = path[1][2]
+        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
+        )
+        conexion.sendall(echo_msg)
+        return
+    if path[0] == '/':
         conexion.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
-    else:
+        return
+    if path[0] != '/':
         conexion.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+        return
 
 
 def main():
@@ -24,6 +36,7 @@ def main():
         data = conexion.recv(1024).decode()  # recopila la data de la peticion
 
         path = msg_estrucutura(data)  # obtenet path
+        print(path)
         manejo_respuesta(path, conexion)  # manejar codigo html
 
 
