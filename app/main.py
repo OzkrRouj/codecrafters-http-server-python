@@ -6,7 +6,7 @@ def msg_estrucutura(data):
     data_linea = data.splitlines()  # separar los elementos en lineas
     # separar los elemntos dentro de una linea
     data_path = data_linea[0].split()[1]
-    data_headers = data_linea[3].split()[1]
+    data_headers = data_linea[2].split()[1]
     path_elementos = data_path.split('/')
     print(data_headers)
     print(data_path)
