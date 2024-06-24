@@ -15,7 +15,7 @@ def msg_estrucutura(data):
 
 
 def manejo_respuesta(path, conexion):
-    print(f'esto es path 0 {path[2][1]}')
+
     if path[1][1] == 'echo':
         echo_element = path[1][2]
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
