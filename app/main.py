@@ -21,20 +21,18 @@ def msg_estrucutura(data):
 def manejo_respuesta(path, conexion):
 
     if path[1][1] == 'files':
-        filename = path[1][2]
+
         try:
+            filename = path[1][2]
             with open(f'/tmp/{filename}', 'r') as f:
                 filename_content = f.read()
             print(filename_content)
             file_msg = f'HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(filename_content)}\r\n\r\n{filename_content}'.encode(
             )
-
-        except:
-
-            # )
-            # conexion.sendall(echo_msg)
-            print('filename_content')
-        conexion.sendall(file_msg)
+            conexion.sendall(file_msg)
+        except FileNotFoundError:
+            file_msg = b"HTTP/1.1 404 Not Found\r\n\r\n"
+            conexion.sendall(file_msg)
         return
 
     if path[1][1] == 'echo':
