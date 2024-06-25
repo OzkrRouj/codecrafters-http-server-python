@@ -21,7 +21,7 @@ def msg_estrucutura(data):
 def manejo_respuesta(path, conexion):
 
     if path[1][1] == 'files':
-
+        filename = path[1][2]
         try:
             filename = path[1][2]
             with open(f'/tmp/{filename}', 'r') as f:
