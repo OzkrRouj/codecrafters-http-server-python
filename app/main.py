@@ -24,7 +24,7 @@ def manejo_respuesta(path, conexion):
         filename = path[1][2]
         try:
             filename = path[1][2]
-            with open(f'/tmp/{filename}', 'r') as f:
+            with open(f'/tmp//data/codecrafters.io/http-server-tester/{filename}', 'r') as f:
                 filename_content = f.read()
             print(filename_content)
             file_msg = f'HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(filename_content)}\r\n\r\n{filename_content}'.encode(
