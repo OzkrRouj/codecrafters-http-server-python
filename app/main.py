@@ -38,7 +38,7 @@ def post_metodo(estructura, conexion):
         filename = estructura[1][2]
         try:
             filename = estructura[1][2]
-            with open(f'/tmp//data/codecrafters.io/http-server-tester/{filename}', 'w') as f:
+            with open(f'/tmp/data/codecrafters.io/http-server-tester/{filename}', 'w') as f:
                 filename_content = f.write(estructura[3])
             print(filename_content)
             file_msg = f'HTTP/1.1 201 Created\r\n\r\n'.encode()
@@ -46,7 +46,7 @@ def post_metodo(estructura, conexion):
         except FileNotFoundError:
             file_msg = b"HTTP/1.1 404 Not Found\r\n\r\n"
             conexion.sendall(file_msg)
-        return
+            return
 
 
 def get_metodo(estructura, conexion):
