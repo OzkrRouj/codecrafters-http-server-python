@@ -44,7 +44,7 @@ def post_metodo(estructura, conexion):
             file_msg = f'HTTP/1.1 201 Created\r\n\r\n'.encode()
             conexion.sendall(file_msg)
         except FileNotFoundError:
-            file_msg = b"aaaaa"
+            file_msg = b"HTTP/1.1 404 Not Found\r\n\r\n"
             conexion.sendall(file_msg)
         return
 
