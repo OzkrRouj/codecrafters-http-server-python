@@ -66,7 +66,7 @@ def get_metodo(estructura, conexion, data):
         content_gzip = gzip.compress(echo_element.encode())
         print(content_gzip)
 
-        print(contenido_hex)
+        # print(contenido_hex)
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(content_gzip)}\r\n\r\n'.encode(
         ) + content_gzip
         conexion.sendall(echo_msg)
