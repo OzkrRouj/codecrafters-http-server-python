@@ -2,6 +2,7 @@
 import socket
 import gzip
 from threading import Thread
+import binascii
 
 base_directory = "/tmp/data/codecrafters.io/http-server-tester/"
 
@@ -64,7 +65,9 @@ def get_metodo(estructura, conexion, data):
         print(echo_element)
         content_gzip = gzip.compress(echo_element.encode())
         print(content_gzip)
-        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}\r\n{content_gzip}'.encode(
+        contenido_hex = binascii.hexlify(content_gzip).decode('ascii')
+        print(contenido_hex)
+        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}\r\n{content_gzip}\r\n\r\n{contenido_hex}'.encode(
         )
         conexion.sendall(echo_msg)
         return
