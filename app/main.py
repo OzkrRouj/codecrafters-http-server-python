@@ -59,7 +59,7 @@ def post_metodo(estructura, conexion):
 
 def get_metodo(estructura, conexion, data):
 
-    if 'gzip' in data:
+    if 'gzip' in data and 'Accept-Encoding' in data:
         echo_element = estructura[1][2]
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
         )
