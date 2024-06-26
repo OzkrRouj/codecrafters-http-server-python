@@ -1,6 +1,6 @@
 # Uncomment this to pass the first stage
 import socket
-import sys
+import gzip
 from threading import Thread
 
 base_directory = "/tmp/data/codecrafters.io/http-server-tester/"
@@ -16,7 +16,7 @@ def msg_estrucutura(data):
         print('OKOKOK')
 
     data_espacio = data.split()
-    print(data_espacio)
+    # print(data_espacio)
     path_elementos = data_path.split('/')
     data_headers = []
     if data_path == '/user-agent':
@@ -24,7 +24,7 @@ def msg_estrucutura(data):
     data_content_post = data_linea[-1]
 
     # print(data_content_post)
-    print(data_linea)
+    # print(data_linea)
     # print(data_path)
     # print(data_headers)
     # print(path_elementos)
@@ -61,7 +61,10 @@ def get_metodo(estructura, conexion, data):
 
     if 'gzip' in data and 'Accept-Encoding' in data:
         echo_element = estructura[1][2]
-        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
+        print(echo_element)
+        content_gzip = gzip.compress(echo_element.encode())
+        print(content_gzip)
+        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}\r\n{content_gzip}'.encode(
         )
         conexion.sendall(echo_msg)
         return
@@ -105,7 +108,7 @@ def manejar_conexion(conexion, direccion):
     data = conexion.recv(1024).decode()  # recopila la data de la peticion
     print(f'DATA - {data}')
     estructura = msg_estrucutura(data)  # obtenet path
-    print(estructura)
+    # print(estructura)
     manejo_respuesta(data, estructura, conexion)  # manejar codigo html
     conexion.close()
 
