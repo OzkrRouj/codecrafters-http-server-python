@@ -12,6 +12,11 @@ def msg_estrucutura(data):
     # separar los elemntos dentro de una linea
     data_path = data_linea[0].split()[1]
 
+    if 'gzip' in data:
+        print('OKOKOK')
+
+    data_espacio = data.split()
+    print(data_espacio)
     path_elementos = data_path.split('/')
     data_headers = []
     if data_path == '/user-agent':
@@ -20,11 +25,11 @@ def msg_estrucutura(data):
 
     # print(data_content_post)
     print(data_linea)
-    print(data_path)
+    # print(data_path)
     # print(data_headers)
     # print(path_elementos)
 
-    return data_path, path_elementos, data_headers, data_content_post, data_linea
+    return data_path, path_elementos, data_headers, data_content_post, data_linea, data_espacio
 
 
 def manejo_respuesta(data, estructura, conexion):
@@ -33,7 +38,7 @@ def manejo_respuesta(data, estructura, conexion):
         post_metodo(estructura, conexion)
     elif data.startswith('GET'):
         print('GET-Metodo')
-        get_metodo(estructura, conexion)
+        get_metodo(estructura, conexion, data)
 
 
 def post_metodo(estructura, conexion):
@@ -52,9 +57,9 @@ def post_metodo(estructura, conexion):
             return
 
 
-def get_metodo(estructura, conexion):
+def get_metodo(estructura, conexion, data):
 
-    if 'Accept-Encoding: gzip' in estructura[4]:
+    if 'gzip' in data:
         echo_element = estructura[1][2]
         echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
         )
