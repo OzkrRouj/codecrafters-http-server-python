@@ -3,6 +3,8 @@ import socket
 import sys
 from threading import Thread
 
+base_directory = "/tmp/data/codecrafters.io/http-server-tester/"
+
 
 def msg_estrucutura(data):
 
@@ -14,7 +16,7 @@ def msg_estrucutura(data):
     data_headers = []
     if data_path == '/user-agent':
         data_headers = data_linea[2].split()[1]
-    data_content_post = data_linea[7]
+    data_content_post = data_linea[-1]
     # print(data_content_post)
     # print(data_linea)
     # print(data_path)
