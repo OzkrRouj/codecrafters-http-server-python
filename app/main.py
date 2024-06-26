@@ -17,13 +17,14 @@ def msg_estrucutura(data):
     if data_path == '/user-agent':
         data_headers = data_linea[2].split()[1]
     data_content_post = data_linea[-1]
+
     # print(data_content_post)
-    # print(data_linea)
-    # print(data_path)
+    print(data_linea)
+    print(data_path)
     # print(data_headers)
     # print(path_elementos)
 
-    return data_path, path_elementos, data_headers, data_content_post
+    return data_path, path_elementos, data_headers, data_content_post, data_linea
 
 
 def manejo_respuesta(data, estructura, conexion):
@@ -52,6 +53,13 @@ def post_metodo(estructura, conexion):
 
 
 def get_metodo(estructura, conexion):
+
+    if 'Accept-Encoding: gzip' in estructura[4]:
+        echo_element = estructura[1][2]
+        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(echo_element)}\r\n\r\n{echo_element}'.encode(
+        )
+        conexion.sendall(echo_msg)
+        return
 
     if estructura[1][1] == 'files':
         filename = estructura[1][2]
@@ -90,7 +98,7 @@ def get_metodo(estructura, conexion):
 
 def manejar_conexion(conexion, direccion):
     data = conexion.recv(1024).decode()  # recopila la data de la peticion
-    # print(f'DATA - {data}')
+    print(f'DATA - {data}')
     estructura = msg_estrucutura(data)  # obtenet path
     print(estructura)
     manejo_respuesta(data, estructura, conexion)  # manejar codigo html
