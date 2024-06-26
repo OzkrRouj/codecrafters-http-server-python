@@ -65,10 +65,10 @@ def get_metodo(estructura, conexion, data):
         print(echo_element)
         content_gzip = gzip.compress(echo_element.encode())
         print(content_gzip)
-        contenido_hex = binascii.hexlify(content_gzip).decode('ascii')
+
         print(contenido_hex)
-        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(content_gzip)}\r\n\r\n{content_gzip}'.encode(
-        )
+        echo_msg = f'HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(content_gzip)}\r\n\r\n'.encode(
+        ) + content_gzip
         conexion.sendall(echo_msg)
         return
 
